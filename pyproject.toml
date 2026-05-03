@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "moneypulse"
+version = "1.0.0"
+description = "Official Money-Pulse Python SDK — Accept payments and process payouts across Africa."
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "MIT" }
+authors = [{ name = "NOCYL-PULSE", email = "dev@money-pulse.org" }]
+keywords = ["money-pulse", "payments", "africa", "mobile-money", "sdk"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Office/Business :: Financial",
+  "Intended Audience :: Developers",
+]
+dependencies = ["requests>=2.25.0"]
+
+[project.urls]
+Homepage = "https://money-pulse.org"
+Repository = "https://github.com/nocyl-pulse/moneypulse-python"
+Issues = "https://github.com/nocyl-pulse/moneypulse-python/issues"
+
+[tool.setuptools.packages.find]
+include = ["moneypulse*"]
