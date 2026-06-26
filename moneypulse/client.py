@@ -34,10 +34,36 @@ class _PaymentResource(_Resource):
     def __init__(self, client: "MoneyPulseClient"):
         super().__init__(client, "/api/v1/payments", "/api/v1/payments/initiate")
 
+    def retrieve(self, id: str) -> Dict[str, Any]:
+        # FIX (F-055) : le backend n'expose pas GET /api/v1/payments/{id}.
+        # La seule route de lecture par identifiant est /:transactionId/status
+        # (cf backend/src/routes/payments.ts).
+        return self._client._request("GET", f"{self._prefix}/{id}/status")
+
+    def verify(self, id: str) -> Dict[str, Any]:
+        # FIX (F-055) : aucune route backend /api/v1/payments/{id}/verify
+        # n'existe. On retombe sur le meme endpoint que retrieve() (status)
+        # plutot que de laisser un appel qui echoue toujours en 404.
+        return self.retrieve(id)
+
 
 class _PayoutResource(_Resource):
     def __init__(self, client: "MoneyPulseClient"):
-        super().__init__(client, "/api/v1/payouts", "/api/v1/payouts/initiate")
+        # FIX (F-055) : le backend expose POST /api/v1/payouts (sans
+        # /initiate) — cf backend/src/routes/payouts.ts.
+        super().__init__(client, "/api/v1/payouts", "/api/v1/payouts")
+
+    def retrieve(self, id: str) -> Dict[str, Any]:
+        raise NotImplementedError(
+            "GET /api/v1/payouts/{id} n'existe pas cote backend. "
+            "Utilisez list() pour retrouver un payout, ou demandez la creation "
+            "de cette route avant de re-activer cette methode."
+        )
+
+    def verify(self, id: str) -> Dict[str, Any]:
+        raise NotImplementedError(
+            "GET /api/v1/payouts/{id}/verify n'existe pas cote backend."
+        )
 
 
 class MoneyPulseClient:
