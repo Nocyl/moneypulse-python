@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "moneypulse"
-version = "2.0.0"
+version = "2.1.0"
 description = "Official Money-Pulse Python SDK — Accept payments and process payouts across Africa."
 readme = "README.md"
 requires-python = ">=3.7"
